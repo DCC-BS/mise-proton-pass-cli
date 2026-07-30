@@ -1,0 +1,9 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/lua-language-server/master/schema/config.json",
+  "runtime": {
+    "version": "Lua 5.1"
+  },
+  "diagnostics": {
+    "globals": ["PLUGIN", "RUNTIME"]
+  }
+}
