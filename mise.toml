@@ -10,7 +10,7 @@ run = "stylua --check ."
 [tasks.test]
 description = "Smoke: link plugin, install pass-cli@latest, run --version"
 depends = ["lint"]
-run = "mise plugins link pass-cli . && mise install pass-cli@latest && mise exec pass-cli@latest -- pass-cli --version"
+run = "mise plugins link --force pass-cli . && mise install pass-cli@latest && mise exec pass-cli@latest -- pass-cli --version"
 
 [tasks.ci]
 description = "What CI runs (lint + smoke install)"

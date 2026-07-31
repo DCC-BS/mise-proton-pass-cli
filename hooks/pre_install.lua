@@ -42,9 +42,13 @@ function PLUGIN:PreInstall(ctx)
     -- concrete version. Reject anything that is not the one published version.
     local requested = ctx.version
     if requested ~= nil and requested ~= "latest" and tostring(requested) ~= latest then
-        error("pass-cli: Proton only publishes version '" .. latest
-            .. "' (via versions.json). Requested '" .. tostring(requested)
-            .. "' is not available. Historical versions are not published by Proton.")
+        error(
+            "pass-cli: Proton only publishes version '"
+                .. latest
+                .. "' (via versions.json). Requested '"
+                .. tostring(requested)
+                .. "' is not available. Historical versions are not published by Proton."
+        )
     end
 
     -- Map mise RUNTIME -> Proton platform keys.
@@ -63,15 +67,24 @@ function PLUGIN:PreInstall(ctx)
     end
 
     if os_name == nil or arch == nil then
-        error("pass-cli: unsupported platform (os=" .. tostring(RUNTIME.osType)
-            .. ", arch=" .. tostring(RUNTIME.archType)
-            .. "). v1 supports Linux/macOS on x86_64/aarch64; Windows is not supported yet.")
+        error(
+            "pass-cli: unsupported platform (os="
+                .. tostring(RUNTIME.osType)
+                .. ", arch="
+                .. tostring(RUNTIME.archType)
+                .. "). v1 supports Linux/macOS on x86_64/aarch64; Windows is not supported yet."
+        )
     end
 
     local entry = pv.urls and pv.urls[os_name] and pv.urls[os_name][arch]
     if type(entry) ~= "table" or entry.url == nil or entry.hash == nil then
-        error("pass-cli: no binary asset for " .. os_name .. "/" .. arch
-            .. " in manifest. Proton may not publish this combination.")
+        error(
+            "pass-cli: no binary asset for "
+                .. os_name
+                .. "/"
+                .. arch
+                .. " in manifest. Proton may not publish this combination."
+        )
     end
 
     return {

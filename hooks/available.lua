@@ -30,8 +30,11 @@ function PLUGIN:Available(ctx) -- luacheck: ignore ctx
         error("pass-cli: versions.json is not valid JSON")
     end
     if tostring(manifest.formatVersion) ~= "1" then
-        error("pass-cli: unsupported manifest formatVersion '" .. tostring(manifest.formatVersion)
-            .. "' - the plugin may need updating")
+        error(
+            "pass-cli: unsupported manifest formatVersion '"
+                .. tostring(manifest.formatVersion)
+                .. "' - the plugin may need updating"
+        )
     end
 
     local pv = manifest.passCliVersions
