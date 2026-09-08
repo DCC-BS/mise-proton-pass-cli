@@ -1,11 +1,11 @@
 -- hooks/post_install.lua
--- Places the downloaded raw binary at bin/pass-cli and verifies it runs.
+-- Places the downloaded binary where it can run and verifies it.
 --
--- mise downloads the asset (a bare executable, NOT an archive) and drops it in
--- the install root. Its exact filename depends on the mise/vfox version
--- (either the plugin name "pass-cli", or the URL basename like
--- "pass-cli-linux-x86_64"), so we locate it defensively, move it into bin/,
--- chmod +x, and assert `pass-cli --version`.
+-- mise downloads the asset and, for archives, extracts it into the install
+-- root. Layout differs by platform:
+--   Unix:    a bare executable (pass-cli or pass-cli-<os>-<arch>) -> bin/pass-cli
+--   Windows: a .zip extracting to pass-cli.exe + libcrypto-3-x64.dll at the
+--            install root (the DLL must stay next to the exe)
 --
 -- Docs: https://mise.jdx.dev/tool-plugin-development.html#postinstall-hook
 
@@ -13,7 +13,17 @@
 function PLUGIN:PostInstall(ctx)
     local path = ctx.sdkInfo[PLUGIN.name].path
 
-    -- One POSIX sh script so we don't depend on io.popen or shell quoting libs.
+    if RUNTIME.osType == "windows" then
+        -- Keep pass-cli.exe and its DLL together at the install root.
+        local exe = path .. "\\pass-cli.exe"
+        local rc = os.execute('"' .. exe .. '" --version >NUL 2>&1')
+        if rc ~= 0 then
+            error("pass-cli: --version verification failed (is pass-cli.exe present?)")
+        end
+        return
+    end
+
+    -- Unix: locate the downloaded binary and place it in bin/.
     -- path is a mise-controlled dir with no spaces or special chars.
     local script = ([[
 set -e

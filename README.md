@@ -32,7 +32,7 @@ the fetching and verification itself.
 | --- | --- | --- |
 | Linux | x86_64, aarch64 | yes |
 | macOS | x86_64 (Intel), arm64 (Apple Silicon) | yes |
-| Windows | x86_64 | **no** (v1; the Windows asset is a `.zip` needing extra handling) |
+| Windows | x86_64 | yes (asset is a `.zip`; extracted to the install root) |
 
 ## Versions
 
@@ -114,8 +114,8 @@ mise install pass-cli@2.2.0   # expect: Proton only publishes version '<current>
 
 ## Troubleshooting
 
-- **`unsupported platform`** — you are on Windows or an unsupported arch. v1
-  covers Linux/macOS on x86_64/aarch64 only.
+- **`unsupported platform`** — you are on an unsupported OS/arch. Supported:
+  Linux/macOS/Windows on x86_64/aarch64.
 - **`versions.json returned HTTP <n>`** — network/proxy issue reaching
   `proton.me`. Check connectivity and retry.
 - **`--version verification failed`** — the downloaded binary did not run.

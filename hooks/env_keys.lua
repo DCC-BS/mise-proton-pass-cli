@@ -5,10 +5,12 @@
 --- @param ctx { path: string }
 --- @return table[] list of { key, value }
 function PLUGIN:EnvKeys(ctx)
+    local file = require("file")
+    local bin = RUNTIME.osType == "windows" and ctx.path or file.join_path(ctx.path, "bin")
     return {
         {
             key = "PATH",
-            value = ctx.path .. "/bin",
+            value = bin,
         },
     }
 end

@@ -6,7 +6,7 @@
 --
 -- Asset naming (from versions.json):
 --   passCliVersions.urls.<os>.<arch> = { url, hash }
---   <os>   in { macos, linux }   (Windows asset is a .zip, unsupported in v1)
+--   <os>   in { macos, linux, windows }   (Windows asset is a .zip)
 --   <arch> in { x86_64, aarch64 }
 --
 -- Docs: https://mise.jdx.dev/tool-plugin-development.html#preinstall-hook
@@ -57,6 +57,8 @@ function PLUGIN:PreInstall(ctx)
         os_name = "macos"
     elseif RUNTIME.osType == "linux" then
         os_name = "linux"
+    elseif RUNTIME.osType == "windows" then
+        os_name = "windows"
     end
 
     local arch
@@ -72,7 +74,7 @@ function PLUGIN:PreInstall(ctx)
                 .. tostring(RUNTIME.osType)
                 .. ", arch="
                 .. tostring(RUNTIME.archType)
-                .. "). v1 supports Linux/macOS on x86_64/aarch64; Windows is not supported yet."
+                .. "). Supported: Linux/macOS/Windows on x86_64/aarch64."
         )
     end
 

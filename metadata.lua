@@ -8,7 +8,7 @@
 
 PLUGIN = { -- luacheck: ignore
     name = "pass-cli",
-    version = "1.0.0",
+    version = "1.1.0",
     description = "Proton Pass CLI - manage Proton Pass vaults, items, and secrets from the terminal",
     author = "DCC-BS",
     updateUrl = "https://github.com/DCC-BS/mise-proton-pass-cli",
